@@ -1,0 +1,69 @@
+name: Build and Package UnityPackage
+
+on:
+  push:
+    branches:
+    - mx-master
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    env:
+      unitypackage_files: ./unity/unitypackage_files
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup MSBuild.exe
+        uses: warrenbuckley/Setup-MSBuild@v1
+
+      - name: Build
+        run: msbuild -p:Configuration=Release AWSSDK.Unity.sln
+        working-directory: "./sdk"
+
+      - name: Copy CognitoIdentity dlls
+        run: Move-Item -Path ./sdk/src/Services/CognitoIdentity/bin/Release/unity/AWSSDK.*.dll -Destination ./unity/unitypackage_files/Assets/AWSSDK
+        shell: powershell
+
+      - name: Copy KinesisFirehose dlls
+        run: Move-Item -Path ./sdk/src/Services/KinesisFirehose/bin/Release/unity/AWSSDK.KinesisFirehose.dll -Destination ./unity/unitypackage_files/Assets/AWSSDK
+        shell: powershell
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: unitypackage_dlls
+          path: ${{env.unitypackage_files}}
+
+  package:
+    name: Package
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: unitypackage_dlls
+          path: .
+
+      - name: Generate File List
+        run: |
+          echo "Assets/AWSSDK.meta" > metaList
+          find ./Assets/AWSSDK/ -name \*.meta >> metaList
+
+      - run: mkdir output
+
+      - name: Create Unity Package
+        uses: pCYSl5EDgo/create-unitypackage@master
+        with:
+          package-path: output/ps-aws-sdk-${{ github.sha }}.unitypackage
+          include-files: metaList
+
+      - name: Archive Unity Package
+        uses: actions/upload-artifact@v1
+        with:
+          name: unitypackage
+          path: output
