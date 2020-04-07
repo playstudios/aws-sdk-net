@@ -58,3 +58,9 @@ generator/.vs/**
 **/*.partial.sln
 **/*.partial.FxCop
 **/*.partial.csproj
+
+####################
+# Mac only exclude
+####################
+.DS_Store
+.idea/
